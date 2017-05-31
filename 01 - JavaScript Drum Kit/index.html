@@ -59,50 +59,27 @@
 
   <script>
 
-  const keys = getKeys();
+  window.addEventListener('keydown', pressButton);
 
-  window.addEventListener('keydown', (e) => {
-    playSound(e.keyCode);
-    highlightButton(e.keyCode);
-  })
-
-  window.addEventListener('keyup', (e) => {
-    removeHighlight(e.keyCode);
-  });
+  const buttons = document.querySelectorAll('.key');
+  buttons.forEach(button => button.addEventListener('transitionend', removeHighlight));
 
 
-  function getKeys () {
-    let keys = [];
-    const elements = document.querySelectorAll('.key');
-    for (let i = 0; i < elements.length; i++) {
-      keys.push(parseInt(elements[i].dataset.key));
-    }
+  function pressButton (event) {
+    const sound = document.querySelector(`audio[data-key="${event.keyCode}"]`);
+    if (!sound) { return; }
 
-    return keys;
-  }
-
-  function playSound (key) {
-    if (keys.indexOf(key) === -1) { return; }
-
-    const sound = document.querySelector(`audio[data-key="${key}"]`);
-
+    sound.currentTime = 0;
     sound.play();
-  }
 
-  function highlightButton (key) {
-    if (keys.indexOf(key) === -1) { return; }
-
-    const button = document.querySelector(`div[data-key="${key}"]`);
-
+    const button = document.querySelector(`div[data-key="${event.keyCode}"]`);
     button.classList.add('playing');
   }
 
-  function removeHighlight(key) {
-    if (keys.indexOf(key) === -1) { return; }
+  function removeHighlight(event) {
+    if (event.propertyName !== 'transform') { return; }
 
-    const button = document.querySelector(`div[data-key="${key}"]`);
-
-    button.classList.remove('playing');
+    this.classList.remove('playing');
   }
   </script>
 </body>
