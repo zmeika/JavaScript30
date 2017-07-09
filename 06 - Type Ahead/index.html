@@ -27,7 +27,7 @@
     function findMatches(val, cities) {
         return cities.filter(place => {
 
-            const regex = RegExp(val, 'gi');
+            const regex = new RegExp(val, 'gi');
 
             return place.city.match(regex) || place.state.match(regex);
         })
@@ -37,17 +37,16 @@
 
         if (this.value.length < 2) return;
 
-
         const suggestions = document.querySelector('.suggestions');
 
         const matchArray = findMatches(this.value, cities);
 
-        const matchedPlaces = matchArray.map(place => {
-            const regex = RegExp(this.value, 'gi');
-            
+        matchArray.map(place => {
+            const regex = new RegExp(this.value, 'gi');
+
             const cityNameHL = place.city.replace(regex, `<span class="hl">${this.value}</span>`);
             const stateNameHL = place.state.replace(regex, `<span class="hl">${this.value}</span>`);
-            
+
             return `
                 <li>
                   <span class="place">${cityNameHL}, ${stateNameHL}</span>
@@ -62,7 +61,6 @@
     const input = document.querySelector('.search');
 
     input.addEventListener('keyup', displayMatches)
-
 
 </script>
 </body>
