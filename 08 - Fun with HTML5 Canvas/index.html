@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+
+  <style>
+    html, body {
+      margin:0;
+    }
+  </style>
+</head>
+<body>
+<canvas id="draw" width="800" height="800"></canvas>
+<script>
+  const canvas = document.querySelector('#draw');
+  const context = canvas.getContext('2d');
+
+  context.strokeStyle = `#005500`;
+  context.lineJoin = 'round';
+  context.lineCap = 'round';
+  context.lineWidth = 10;
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  let isDrawing = false;
+  let lastX = 0;
+  let lastY = 0;
+  let hue = 0;
+  let increaseRadius = true;
+
+  function Brush(event) {
+      if (!isDrawing) return;
+      const currentX = event.clientX;
+      const currentY = event.clientY;
+
+      context.lineJoin = 'round';
+      context.lineCap = 'round';
+
+      context.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+
+      context.beginPath();
+      context.moveTo(currentX, currentY);
+      context.lineTo(lastX, lastY);
+      context.stroke();
+      [lastX, lastY] = [currentX, currentY];
+      hue++;
+      if (hue >= 360) {
+          hue = 0;
+      }
+      if(context.lineWidth >=50 || context.lineWidth <= 1) {
+          increaseRadius = !increaseRadius;
+      }
+      if (increaseRadius) {
+          context.lineWidth++;
+      } else {
+          context.lineWidth--;
+      }
+  }
+
+  canvas.addEventListener('mousemove', Brush);
+  canvas.addEventListener('mousedown', (event) => {
+      isDrawing = true;
+      [lastX, lastY] = [event.clientX, event.clientY];
+  });
+  canvas.addEventListener('mouseup', () => isDrawing = false);
+  canvas.addEventListener('mouseout', () => isDrawing = false);
+</script>
+</body>
+</html>
