@@ -58,6 +58,10 @@ body {
   border-color: #ffc600;
 }
 
+.player__button--fullscreen svg {
+  fill: #fff;
+}
+
 .player__slider {
   width:10px;
   height:30px;

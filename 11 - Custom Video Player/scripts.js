@@ -5,6 +5,8 @@ const progressBar = player.querySelector('.progress__filled');
 const togglePlayButton = player.querySelector('.toggle');
 const skipButton = player.querySelectorAll('[data-skip]');
 const sliders = player.querySelectorAll('.player__slider');
+const fullscreen = player.querySelector('.player__button--fullscreen');
+
 
 function togglePlay() {
     if (video.paused || video.ended) {
@@ -45,7 +47,21 @@ function scrub(event) {
     video.currentTime = video.duration * clickPosition;
 }
 
+function fullscreenMode() {
+    if (video.requestFullscreen) {
+        video.requestFullscreen()
+    } else if (video.webkitRequestFullScreen) {
+        video.webkitRequestFullScreen()
+    } else if (video.mozRequestFullScreen) {
+        video.mozRequestFullScreen()
+    } else if (video.msRequestFullScreen) {
+        video.msRequestFullScreen()
+    }
+    setFullscreenData(true);
+}
+
 togglePlayButton.addEventListener('click', togglePlay);
+fullscreen.addEventListener('click', fullscreenMode);
 video.addEventListener('click', togglePlay);
 video.addEventListener('play', updatePlayButton);
 video.addEventListener('pause', updatePlayButton);
