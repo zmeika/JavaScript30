@@ -48,40 +48,17 @@
 <script>
     const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
 
-    const articles = ['The ', 'An ', 'A '];
-
     const list = document.querySelector('#bands');
 
-    const bandsList = [];
-
     function removeArticle(bandName) {
-        for (let i = 0; i <= articles.length; i++) {
-            if (bandName.indexOf(articles[i]) != -1) {
-                return bandName.slice(articles[i].length)
-            }
-        }
+        return bandName.replace(/^(the |a | an )/i, '')
     }
 
-    const pairedBands = bands.map(band => {
-        return {
-            original: band,
-            withoutArticle: removeArticle(band) ? removeArticle(band) : band
-        }
-    });
-
-    const sortedBands = pairedBands.sort((current, next) => {
-        if (current.withoutArticle >= next.withoutArticle) {
-            return 1
-        }
-        return -1;
-    });
+    const sortedBands = bands.sort((current, next) => removeArticle(current) > removeArticle(next) ? 1 : -1);
 
     list.innerHTML = sortedBands.map(band => {
-       return `<li>${band.original}</li>`
+       return `<li>${band}</li>`
     }).join('')
-
-
 </script>
-
 </body>
 </html>
