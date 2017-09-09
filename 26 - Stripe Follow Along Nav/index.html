@@ -221,17 +221,18 @@
 
   function handleEnter() {
       this.classList.add('trigger-enter');
+
+      setTimeout(() => this.classList.contains('trigger-enter') && this.classList.add('trigger-enter-active'), 200);
+
       background.classList.add('open');
 
       const item = this.querySelector('.dropdown');
-
       const coords = item.getBoundingClientRect();
       const navCoords = nav.getBoundingClientRect();
-      background.style.width = `${coords.width}px`;
 
+      background.style.width = `${coords.width}px`;
       background.style.height = `${coords.height}px`;
       background.style.transform = `translate(${coords.left - navCoords.left}px, ${coords.top - navCoords.top}px)`;
-      setTimeout(() => this.classList.add('trigger-enter-active'), 200);
   }
 
   function handleLeave() {
