@@ -76,7 +76,7 @@
   }
   body {
     margin: 0;
-    min-height: 100vh;
+    min-height: 120vh;
     background:
       linear-gradient(45deg, hsla(340, 100%, 55%, 1) 0%, hsla(340, 100%, 55%, 0) 70%),
       linear-gradient(135deg, hsla(225, 95%, 50%, 1) 10%, hsla(225, 95%, 50%, 0) 80%),
@@ -226,11 +226,12 @@
       const item = this.querySelector('.dropdown');
 
       const coords = item.getBoundingClientRect();
+      const navCoords = nav.getBoundingClientRect();
       background.style.width = `${coords.width}px`;
 
       background.style.height = `${coords.height}px`;
       background.style.left = `${coords.left}px`;
-      background.style.top = `${coords.top - nav.offsetTop}px`;
+      background.style.top = `${coords.top - navCoords.top}px`;
       setTimeout(() => this.classList.add('trigger-enter-active'), 200);
   }
 
