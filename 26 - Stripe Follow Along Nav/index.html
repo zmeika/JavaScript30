@@ -230,8 +230,7 @@
       background.style.width = `${coords.width}px`;
 
       background.style.height = `${coords.height}px`;
-      background.style.left = `${coords.left}px`;
-      background.style.top = `${coords.top - navCoords.top}px`;
+      background.style.transform = `translate(${coords.left - navCoords.left}px, ${coords.top - navCoords.top}px)`;
       setTimeout(() => this.classList.add('trigger-enter-active'), 200);
   }
 
