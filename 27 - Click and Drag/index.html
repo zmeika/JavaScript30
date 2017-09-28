@@ -50,14 +50,17 @@
       isDown = true;
 
       previousX = event.clientX;
+      slider.classList.add('active');
   }
 
   function handleMouseUp() {
       isDown = false;
+      slider.classList.remove('active');
   }
 
   function handleMouseLeave() {
       isDown = false;
+      slider.classList.remove('active');
   }
 
   function handleMouseMove(event) {
