@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Video Speed Scrubber</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrapper">
+  <video class="flex" width="765" height="430"
+         src="https://et.cdn.gmru.net/promo/et/promo/1/9/video/eternal-video-landing.webm" loop
+         controls autoplay="off"></video>
+  <div class="speed">
+    <div class="speed-bar">1×</div>
+  </div>
+</div>
+
+<script>
+    const player = document.querySelector('.flex');
+    const speed = document.querySelector('.speed');
+    const speedBar = document.querySelector('.speed-bar');
+
+    speed.addEventListener('mousemove', changePlayback);
+
+    function changePlayback(event) {
+        const min = 0.4;
+        const max = 4;
+
+        const y = event.pageY - this.offsetTop;
+        const part = y / this.offsetHeight;
+        const height = Math.round(part * 100) + '%';
+
+        player.playbackRate = part * (max - min) + min;
+        speedBar.style.height = height;
+        speedBar.textContent = player.playbackRate.toFixed(1) + 'x';
+    }
+</script>
+</body>
+</html>
