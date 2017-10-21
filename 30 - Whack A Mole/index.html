@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Whack A Mole!</title>
+  <link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Whack-a-mole! <span class="score">0</span></h1>
+<select name="level" id="level">
+  <option value="newbie">Default</option>
+  <option value="newbie">Newbie</option>
+  <option value="confident">Confident</option>
+  <option value="expert">Expert</option>
+</select>
+<div class="game">
+  <div class="hole hole1">
+    <div class="mole"></div>
+  </div>
+  <div class="hole hole2">
+    <div class="mole"></div>
+  </div>
+  <div class="hole hole3">
+    <div class="mole"></div>
+  </div>
+  <div class="hole hole4">
+    <div class="mole"></div>
+  </div>
+  <div class="hole hole5">
+    <div class="mole"></div>
+  </div>
+  <div class="hole hole6">
+    <div class="mole"></div>
+  </div>
+</div>
+
+<script>
+    const holes = document.querySelectorAll('.hole');
+    const scoreBoard = document.querySelector('.score');
+    const moles = document.querySelectorAll('.mole');
+    const levelSelector = document.querySelector('#level');
+
+    let lastIndex;
+    let timesUp = false;
+    let score = 0;
+
+    const levels = {
+        'newbie': {min: 500, max: 1500},
+        'confident': {min: 300, max: 1000},
+        'expert': {min: 200, max: 800}
+    };
+
+    levelSelector.addEventListener('change', () => {
+        startGame(levelSelector.value);
+    });
+
+    moles.forEach(mole => mole.addEventListener('click', whack));
+
+    function randomHole(holes) {
+        const index = Math.floor(Math.random() * holes.length);
+
+        if (index === lastIndex) {
+            randomHole(holes);
+        }
+
+        lastIndex = index;
+
+        return holes[index];
+    }
+
+    function randomTime(min, max) {
+        return Math.round(Math.random() * (max - min) + min)
+    }
+
+    function showMole(hole, min, max) {
+        if (!timesUp) {
+            hole.classList.add('up');
+            setTimeout(() => {
+                hole.classList.remove('up');
+                showMole(randomHole(holes), min, max);
+            }, randomTime(min, max))
+        }
+    }
+
+    function whack(event) {
+        if (!event.isTrusted) return;
+
+        score++;
+        scoreBoard.textContent = score;
+        this.parentNode.classList.remove('up');
+    }
+
+
+    function startGame(level) {
+
+        timesUp = false;
+        score = 0;
+
+        setTimeout(() => {
+            timesUp = true
+        }, 10000);
+        showMole(randomHole(holes), levels[level].min, levels[level].max)
+
+    }
+
+</script>
+</body>
+</html>
